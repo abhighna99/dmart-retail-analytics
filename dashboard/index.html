@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DMart Executive Business & Performance Analytics Dashboard</title>
+  <!-- Tailwind CSS & Chart.js via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+    .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05); }
+    .active-tab { border-bottom: 3px solid #0284c7; color: #0284c7; font-weight: 600; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-emerald-800 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-amber-400 text-emerald-950 font-black text-2xl px-3 py-1 rounded shadow">DMart</div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Executive Business & Retail Analytics Dashboard</h1>
+          <p class="text-emerald-200 text-xs">Performance Analysis, Unit Economics, Data Audit & Strategic Roadmap</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4 text-xs">
+        <div class="bg-emerald-900/60 px-3 py-1.5 rounded-lg border border-emerald-700/50">
+          <span class="text-emerald-300 font-medium">Evaluation Period:</span> Jan 2025 – Oct 2026
+        </div>
+        <div class="bg-emerald-900/60 px-3 py-1.5 rounded-lg border border-emerald-700/50">
+          <span class="text-emerald-300 font-medium">Dataset Grain:</span> 15,000 Trans. | 3,200 Customers
+        </div>
+        <div class="bg-amber-400 text-emerald-950 px-3 py-1.5 rounded-lg font-bold flex items-center space-x-1">
+          <i class="fas fa-check-circle"></i>
+          <span>Verified & Audited</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-8 text-sm font-medium text-slate-500 overflow-x-auto">
+      <button onclick="switchTab('overview')" id="tab-overview" class="py-4 active-tab hover:text-sky-600 transition flex items-center space-x-2">
+        <i class="fas fa-chart-pie"></i><span>Executive Overview</span>
+      </button>
+      <button onclick="switchTab('categories')" id="tab-categories" class="py-4 hover:text-sky-600 transition flex items-center space-x-2">
+        <i class="fas fa-tags"></i><span>Category & Product P&L</span>
+      </button>
+      <button onclick="switchTab('channels')" id="tab-channels" class="py-4 hover:text-sky-600 transition flex items-center space-x-2">
+        <i class="fas fa-store-alt"></i><span>Channel & Store Dynamics</span>
+      </button>
+      <button onclick="switchTab('customers')" id="tab-customers" class="py-4 hover:text-sky-600 transition flex items-center space-x-2">
+        <i class="fas fa-users"></i><span>Customer Segments & Loyalty</span>
+      </button>
+      <button onclick="switchTab('audit')" id="tab-audit" class="py-4 hover:text-sky-600 transition flex items-center space-x-2">
+        <i class="fas fa-clipboard-check"></i><span>Data Quality & Funnel Audit</span>
+      </button>
+      <button onclick="switchTab('recommendations')" id="tab-recommendations" class="py-4 hover:text-sky-600 transition flex items-center space-x-2">
+        <i class="fas fa-lightbulb"></i><span>Actionable Recommendations</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+    <!-- TAB 1: EXECUTIVE OVERVIEW -->
+    <div id="content-overview" class="space-y-8">
+
+      <!-- Executive KPI Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Realized Net Sales -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Realized Net Sales</span>
+            <span class="p-2 bg-blue-50 text-blue-600 rounded-lg text-sm"><i class="fas fa-indian-rupee-sign"></i></span>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-black text-slate-800">₹24.51 L</span>
+            <span class="text-xs font-medium text-emerald-600 flex items-center"><i class="fas fa-arrow-up mr-0.5"></i>₹25.89L Gross</span>
+          </div>
+          <p class="text-slate-500 text-xs mt-2">13,602 completed transactions after ₹1.38L discounts (5.3% effective rate)</p>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-blue-600"></div>
+        </div>
+
+        <!-- Gross Profit & Margin -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gross Profit (Margin)</span>
+            <span class="p-2 bg-emerald-50 text-emerald-600 rounded-lg text-sm"><i class="fas fa-wallet"></i></span>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-black text-slate-800">₹6.16 L</span>
+            <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full">25.14%</span>
+          </div>
+          <p class="text-slate-500 text-xs mt-2">Total COGS: ₹18.34L (74.86% of Net Sales across all 20 SKUs)</p>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-600"></div>
+        </div>
+
+        <!-- Average Basket Value & ASP -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Avg Basket Value (ABV)</span>
+            <span class="p-2 bg-indigo-50 text-indigo-600 rounded-lg text-sm"><i class="fas fa-shopping-basket"></i></span>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-black text-slate-800">₹180.17</span>
+            <span class="text-xs font-medium text-indigo-600">1.51 UPT</span>
+          </div>
+          <p class="text-slate-500 text-xs mt-2">Average Selling Price (ASP): ₹119.47 across 20,513 units sold</p>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-indigo-600"></div>
+        </div>
+
+        <!-- Order Fulfillment & Quality -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fulfillment & Friction</span>
+            <span class="p-2 bg-amber-50 text-amber-600 rounded-lg text-sm"><i class="fas fa-truck-ramp-box"></i></span>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-black text-slate-800">90.68%</span>
+            <span class="text-xs font-semibold text-rose-600">4.0% Canc. | 3.3% Ret.</span>
+          </div>
+          <p class="text-slate-500 text-xs mt-2">603 cancelled (₹1.14L lost) & 463 returned (₹82.3k reversed)</p>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-amber-500"></div>
+        </div>
+      </div>
+
+      <!-- Charts Row 1: Monthly Trends and Channel Share -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-800">Monthly Revenue & Gross Profit Trajectory</h2>
+              <p class="text-xs text-slate-500">Net Sales and Gross Profit performance across 22 months (Jan 2025 – Oct 2026)</p>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md font-medium">Monthly Run-rate: ~₹1.15L</span>
+          </div>
+          <div class="h-72">
+            <canvas id="monthlyTrendChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-base font-bold text-slate-800">Omnichannel Revenue Mix</h2>
+              <p class="text-xs text-slate-500">Distribution across App, In-store & Online</p>
+            </div>
+          </div>
+          <div class="h-56 relative">
+            <canvas id="channelDonutChart"></canvas>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 grid grid-cols-3 text-center text-xs">
+            <div>
+              <p class="text-slate-400 font-medium">App</p>
+              <p class="font-bold text-slate-800">34.2%</p>
+              <p class="text-emerald-600 font-semibold">2.97% Ret</p>
+            </div>
+            <div>
+              <p class="text-slate-400 font-medium">Online</p>
+              <p class="font-bold text-slate-800">33.0%</p>
+              <p class="text-amber-600 font-semibold">3.51% Ret</p>
+            </div>
+            <div>
+              <p class="text-slate-400 font-medium">In-store</p>
+              <p class="font-bold text-slate-800">32.8%</p>
+              <p class="text-amber-600 font-semibold">3.40% Ret</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlights Banner -->
+      <div class="bg-gradient-to-r from-sky-900 to-indigo-900 rounded-xl p-6 text-white shadow-md">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="bg-sky-500/30 text-sky-200 text-xs px-2.5 py-0.5 rounded-full font-semibold border border-sky-400/30">Key Analytical Takeaway</span>
+              <span class="text-xs text-slate-300">Staples Driving Footfall vs. High-Margin Long Tail</span>
+            </div>
+            <h3 class="text-lg font-bold">Staples generate 30.9% of Net Sales but operate at lowest margin (19.2%)</h3>
+            <p class="text-sm text-slate-200 max-w-3xl">Personal Care (29.9% margin), Fresh Produce (32.0% margin), and Packaged Food (38.0% margin) deliver superior profitability. DMart can expand overall gross margin from 25.1% to 27.5%+ by executing cross-category bundle merchandising.</p>
+          </div>
+          <button onclick="switchTab('recommendations')" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-4 py-2 rounded-lg text-sm font-bold transition whitespace-nowrap shadow">
+            View Strategic Plan <i class="fas fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: CATEGORY & PRODUCT P&L -->
+    <div id="content-categories" class="hidden space-y-8">
+      
+      <!-- Category Table & Margin Analysis -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-base font-bold text-slate-800">Category Profit & Loss Breakdown (All 10 Categories)</h2>
+            <span class="text-xs text-slate-500">Sorted by Net Sales</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs text-left">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Category</th>
+                  <th class="py-2.5 px-3 text-right">Orders</th>
+                  <th class="py-2.5 px-3 text-right">Units</th>
+                  <th class="py-2.5 px-3 text-right">Net Sales (₹)</th>
+                  <th class="py-2.5 px-3 text-right">Gross Profit (₹)</th>
+                  <th class="py-2.5 px-3 text-right">Margin (%)</th>
+                  <th class="py-2.5 px-3 text-right">Sales Share</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium">
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Staples</td><td class="py-2.5 px-3 text-right">2,708</td><td class="py-2.5 px-3 text-right">4,077</td><td class="py-2.5 px-3 text-right font-semibold">₹7,57,280</td><td class="py-2.5 px-3 text-right text-emerald-700">₹1,45,648</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">19.2%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">30.9%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Home Care</td><td class="py-2.5 px-3 text-right">1,330</td><td class="py-2.5 px-3 text-right">2,055</td><td class="py-2.5 px-3 text-right font-semibold">₹3,88,031</td><td class="py-2.5 px-3 text-right text-emerald-700">₹93,124</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold">24.0%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">15.8%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Beverages</td><td class="py-2.5 px-3 text-right">1,360</td><td class="py-2.5 px-3 text-right">2,105</td><td class="py-2.5 px-3 text-right font-semibold">₹3,62,536</td><td class="py-2.5 px-3 text-right text-emerald-700">₹91,643</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold">25.3%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">14.8%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Personal Care</td><td class="py-2.5 px-3 text-right">1,359</td><td class="py-2.5 px-3 text-right">2,039</td><td class="py-2.5 px-3 text-right font-semibold">₹2,75,719</td><td class="py-2.5 px-3 text-right text-emerald-700">₹82,481</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">29.9%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">11.3%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Fresh Produce</td><td class="py-2.5 px-3 text-right">1,381</td><td class="py-2.5 px-3 text-right">2,076</td><td class="py-2.5 px-3 text-right font-semibold">₹2,29,804</td><td class="py-2.5 px-3 text-right text-emerald-700">₹73,506</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">32.0%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">9.4%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Dairy</td><td class="py-2.5 px-3 text-right">2,059</td><td class="py-2.5 px-3 text-right">3,051</td><td class="py-2.5 px-3 text-right font-semibold">₹1,85,200</td><td class="py-2.5 px-3 text-right text-emerald-700">₹37,198</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">20.1%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">7.6%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Home & Utility</td><td class="py-2.5 px-3 text-right">640</td><td class="py-2.5 px-3 text-right">986</td><td class="py-2.5 px-3 text-right font-semibold">₹79,414</td><td class="py-2.5 px-3 text-right text-emerald-700">₹26,169</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">33.0%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">3.2%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Packaged Food</td><td class="py-2.5 px-3 text-right">1,371</td><td class="py-2.5 px-3 text-right">2,062</td><td class="py-2.5 px-3 text-right font-semibold">₹78,270</td><td class="py-2.5 px-3 text-right text-emerald-700">₹29,758</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">38.0%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">3.2%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Stationery</td><td class="py-2.5 px-3 text-right">690</td><td class="py-2.5 px-3 text-right">1,024</td><td class="py-2.5 px-3 text-right font-semibold">₹53,216</td><td class="py-2.5 px-3 text-right text-emerald-700">₹21,472</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">40.3%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">2.2%</td></tr>
+                <tr class="hover:bg-slate-50"><td class="py-2.5 px-3 font-bold text-slate-900">Bakery</td><td class="py-2.5 px-3 text-right">704</td><td class="py-2.5 px-3 text-right">1,038</td><td class="py-2.5 px-3 text-right font-semibold">₹41,148</td><td class="py-2.5 px-3 text-right text-emerald-700">₹15,202</td><td class="py-2.5 px-3 text-right"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">36.9%</span></td><td class="py-2.5 px-3 text-right font-bold text-slate-700">1.7%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Category Margin Bar Chart -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <h2 class="text-base font-bold text-slate-800 mb-1">Gross Margin (%) by Category</h2>
+          <p class="text-xs text-slate-500 mb-4">Comparison against corporate average (25.14%)</p>
+          <div class="h-80">
+            <canvas id="categoryMarginChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top 5 vs Bottom 5 SKUs -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-emerald-800 flex items-center">
+              <i class="fas fa-arrow-trend-up text-emerald-600 mr-2"></i> Top 5 Profit Contributing Products
+            </h3>
+            <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-semibold">43.8% of Total Profit</span>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Laundry Detergent (PR012)</p>
+                <p class="text-xs text-slate-500">Home Care | 949 Units Sold</p>
+              </div>
+              <div class="text-right">
+                <p class="font-black text-xs text-emerald-700">₹59,517 Profit</p>
+                <p class="text-xs text-slate-400 font-medium">22.2% Margin</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Wheat Flour 5kg (PR002)</p>
+                <p class="text-xs text-slate-500">Staples | 1,051 Units Sold</p>
+              </div>
+              <div class="text-right">
+                <p class="font-black text-xs text-emerald-700">₹55,726 Profit</p>
+                <p class="text-xs text-slate-400 font-medium">22.9% Margin</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Rice 5kg (PR001)</p>
+                <p class="text-xs text-slate-500">Staples | 1,009 Units Sold</p>
+              </div>
+              <div class="text-right">
+                <p class="font-black text-xs text-emerald-700">₹55,528 Profit</p>
+                <p class="text-xs text-slate-400 font-medium">16.7% Margin</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Coffee 100g (PR017)</p>
+                <p class="text-xs text-slate-500">Beverages | 1,038 Units Sold</p>
+              </div>
+              <div class="text-right">
+                <p class="font-black text-xs text-emerald-700">₹50,473 Profit</p>
+                <p class="text-xs text-slate-400 font-medium">24.5% Margin</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Shampoo (PR013)</p>
+                <p class="text-xs text-slate-500">Personal Care | 999 Units Sold</p>
+              </div>
+              <div class="text-right">
+                <p class="font-black text-xs text-emerald-700">₹48,697 Profit</p>
+                <p class="text-xs text-slate-400 font-medium">27.3% Margin</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-amber-800 flex items-center">
+              <i class="fas fa-boxes-stacked text-amber-600 mr-2"></i> Low Revenue / Value SKUs
+            </h3>
+            <span class="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded font-semibold">High Margin, Low Ticket Size</span>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Curd 500g (PR006)</p>
+                <p class="text-xs text-slate-500">Dairy | ₹38 List Price</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-xs text-slate-700">₹9,680 Profit</p>
+                <p class="text-xs text-emerald-600 font-medium">25.5% Margin (₹38k Sales)</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Sugar 1kg (PR004)</p>
+                <p class="text-xs text-slate-500">Staples | ₹48 List Price</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-xs text-slate-700">₹9,993 Profit</p>
+                <p class="text-xs text-amber-600 font-medium">20.9% Margin (₹48k Sales)</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Biscuits Pack (PR015)</p>
+                <p class="text-xs text-slate-500">Packaged Food | ₹30 List Price</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-xs text-slate-700">₹10,516 Profit</p>
+                <p class="text-xs text-emerald-600 font-medium">36.3% Margin (₹29k Sales)</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Bread (PR007)</p>
+                <p class="text-xs text-slate-500">Bakery | ₹42 List Price</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-xs text-slate-700">₹15,202 Profit</p>
+                <p class="text-xs text-emerald-600 font-medium">36.9% Margin (₹41k Sales)</p>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs text-slate-800">Chocolate (PR018)</p>
+                <p class="text-xs text-slate-500">Packaged Food | ₹50 List Price</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-xs text-slate-700">₹19,243 Profit</p>
+                <p class="text-xs text-emerald-600 font-medium">39.0% Margin (₹49k Sales)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 3: CHANNEL & STORE DYNAMICS -->
+    <div id="content-channels" class="hidden space-y-8">
+      
+      <!-- Channels Deep Dive -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-800 uppercase tracking-wider">Mobile App Channel</span>
+            <span class="p-1.5 bg-sky-50 text-sky-600 rounded text-sm"><i class="fas fa-mobile-screen"></i></span>
+          </div>
+          <div class="mt-3">
+            <p class="text-2xl font-black text-slate-800">₹8.37 L</p>
+            <p class="text-xs text-slate-500 mt-1">4,566 Orders (34.2% Revenue Share)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-xs space-y-1.5">
+            <div class="flex justify-between"><span class="text-slate-500">Average Basket:</span><span class="font-bold">₹183.33</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Gross Margin:</span><span class="font-bold text-emerald-600">25.04%</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Return Rate:</span><span class="font-bold text-emerald-600">2.97% (Lowest)</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Cancellation:</span><span class="font-bold text-rose-600">4.07%</span></div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-800 uppercase tracking-wider">Web Online Channel</span>
+            <span class="p-1.5 bg-indigo-50 text-indigo-600 rounded text-sm"><i class="fas fa-globe"></i></span>
+          </div>
+          <div class="mt-3">
+            <p class="text-2xl font-black text-slate-800">₹8.09 L</p>
+            <p class="text-xs text-slate-500 mt-1">4,484 Orders (33.0% Revenue Share)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-xs space-y-1.5">
+            <div class="flex justify-between"><span class="text-slate-500">Average Basket:</span><span class="font-bold">₹180.38</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Gross Margin:</span><span class="font-bold text-emerald-600">25.08%</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Return Rate:</span><span class="font-bold text-amber-600">3.51% (Highest)</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Cancellation:</span><span class="font-bold text-rose-600">4.10%</span></div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 border border-slate-200 card-shadow">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider">In-Store Retail Channel</span>
+            <span class="p-1.5 bg-emerald-50 text-emerald-600 rounded text-sm"><i class="fas fa-store"></i></span>
+          </div>
+          <div class="mt-3">
+            <p class="text-2xl font-black text-slate-800">₹8.05 L</p>
+            <p class="text-xs text-slate-500 mt-1">4,552 Orders (32.8% Revenue Share)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-xs space-y-1.5">
+            <div class="flex justify-between"><span class="text-slate-500">Average Basket:</span><span class="font-bold">₹176.78</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Gross Margin:</span><span class="font-bold text-emerald-600">25.32%</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Return Rate:</span><span class="font-bold text-amber-600">3.40%</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Cancellation:</span><span class="font-bold text-emerald-600">3.90% (Lowest)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Store Level Performance Insights -->
+      <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-800">Store Network Performance Variance (30 Stores)</h3>
+            <p class="text-xs text-slate-500">Analysis of top-performing vs under-performing retail locations</p>
+          </div>
+          <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded font-medium">Avg Sales/Store: ₹81.7k</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-xs font-bold text-emerald-800 uppercase mb-3 flex items-center">
+              <i class="fas fa-trophy text-amber-500 mr-2"></i> Top 5 Stores by Sales
+            </h4>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between items-center p-2.5 bg-emerald-50/50 rounded-lg border border-emerald-100">
+                <span class="font-bold text-slate-800">ST017 (Mumbai)</span>
+                <span class="font-bold text-emerald-700">₹94,064 Net Sales (499 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-emerald-50/50 rounded-lg border border-emerald-100">
+                <span class="font-bold text-slate-800">ST020 (Pune)</span>
+                <span class="font-bold text-emerald-700">₹92,863 Net Sales (481 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-emerald-50/50 rounded-lg border border-emerald-100">
+                <span class="font-bold text-slate-800">ST011 (Hyderabad)</span>
+                <span class="font-bold text-emerald-700">₹91,421 Net Sales (487 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-emerald-50/50 rounded-lg border border-emerald-100">
+                <span class="font-bold text-slate-800">ST009 (Bangalore)</span>
+                <span class="font-bold text-emerald-700">₹89,664 Net Sales (478 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-emerald-50/50 rounded-lg border border-emerald-100">
+                <span class="font-bold text-slate-800">ST028 (Thane)</span>
+                <span class="font-bold text-emerald-700">₹87,605 Net Sales (473 Orders)</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold text-rose-800 uppercase mb-3 flex items-center">
+              <i class="fas fa-circle-exclamation text-rose-500 mr-2"></i> Bottom 5 Stores by Sales
+            </h4>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between items-center p-2.5 bg-rose-50/50 rounded-lg border border-rose-100">
+                <span class="font-bold text-slate-800">ST023 (Delhi)</span>
+                <span class="font-bold text-rose-700">₹69,969 Net Sales (411 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-rose-50/50 rounded-lg border border-rose-100">
+                <span class="font-bold text-slate-800">ST007 (Chennai)</span>
+                <span class="font-bold text-rose-700">₹72,408 Net Sales (418 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-rose-50/50 rounded-lg border border-rose-100">
+                <span class="font-bold text-slate-800">ST013 (Ahmedabad)</span>
+                <span class="font-bold text-rose-700">₹73,115 Net Sales (418 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-rose-50/50 rounded-lg border border-rose-100">
+                <span class="font-bold text-slate-800">ST018 (Kolkata)</span>
+                <span class="font-bold text-rose-700">₹73,803 Net Sales (421 Orders)</span>
+              </div>
+              <div class="flex justify-between items-center p-2.5 bg-rose-50/50 rounded-lg border border-rose-100">
+                <span class="font-bold text-slate-800">ST026 (Surat)</span>
+                <span class="font-bold text-rose-700">₹74,489 Net Sales (427 Orders)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 4: CUSTOMER SEGMENTS & LOYALTY -->
+    <div id="content-customers" class="hidden space-y-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Customer Segment Card -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <h3 class="text-base font-bold text-slate-800 mb-1">Customer Segment Economic Contribution</h3>
+          <p class="text-xs text-slate-500 mb-4">Net Sales, Order Volume, and ARPU by Segment</p>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs text-left">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-2 px-3">Segment</th>
+                  <th class="py-2 px-3 text-right">Customers</th>
+                  <th class="py-2 px-3 text-right">Net Sales</th>
+                  <th class="py-2 px-3 text-right">ARPU</th>
+                  <th class="py-2 px-3 text-right">Share %</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium">
+                <tr><td class="py-2.5 px-3 font-bold">Occasional</td><td class="py-2.5 px-3 text-right">623</td><td class="py-2.5 px-3 text-right">₹4,97,005</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹797.76</td><td class="py-2.5 px-3 text-right">20.28%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold">Regular</td><td class="py-2.5 px-3 text-right">643</td><td class="py-2.5 px-3 text-right">₹4,91,686</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹764.68</td><td class="py-2.5 px-3 text-right">20.06%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold">Premium</td><td class="py-2.5 px-3 text-right">630</td><td class="py-2.5 px-3 text-right">₹4,86,747</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹772.61</td><td class="py-2.5 px-3 text-right">19.86%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold">Value Seeker</td><td class="py-2.5 px-3 text-right">641</td><td class="py-2.5 px-3 text-right">₹4,85,272</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹757.05</td><td class="py-2.5 px-3 text-right">19.80%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold">Family Shopper</td><td class="py-2.5 px-3 text-right">609</td><td class="py-2.5 px-3 text-right">₹4,70,913</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹773.26</td><td class="py-2.5 px-3 text-right">19.22%</td></tr>
+                <tr class="bg-slate-50 text-slate-500"><td class="py-2.5 px-3 italic">Guest / Unassigned</td><td class="py-2.5 px-3 text-right">4</td><td class="py-2.5 px-3 text-right">₹19,004</td><td class="py-2.5 px-3 text-right">-</td><td class="py-2.5 px-3 text-right">0.78%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Loyalty Tier Card -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+          <h3 class="text-base font-bold text-slate-800 mb-1">Loyalty Tier Revenue Performance</h3>
+          <p class="text-xs text-slate-500 mb-4">Assessment of loyalty member spend vs non-members</p>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs text-left">
+              <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="py-2 px-3">Loyalty Tier</th>
+                  <th class="py-2 px-3 text-right">Customers</th>
+                  <th class="py-2 px-3 text-right">Net Sales</th>
+                  <th class="py-2 px-3 text-right">ARPU</th>
+                  <th class="py-2 px-3 text-right">Share %</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium">
+                <tr><td class="py-2.5 px-3 font-bold text-slate-700">Silver</td><td class="py-2.5 px-3 text-right">796</td><td class="py-2.5 px-3 text-right">₹6,13,853</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹771.17</td><td class="py-2.5 px-3 text-right">25.05%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold text-amber-600">Gold</td><td class="py-2.5 px-3 text-right">799</td><td class="py-2.5 px-3 text-right">₹6,13,461</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹767.79</td><td class="py-2.5 px-3 text-right">25.03%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold text-slate-500">Non-Member</td><td class="py-2.5 px-3 text-right">780</td><td class="py-2.5 px-3 text-right">₹6,07,669</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹779.06</td><td class="py-2.5 px-3 text-right">24.80%</td></tr>
+                <tr><td class="py-2.5 px-3 font-bold text-indigo-600">Platinum</td><td class="py-2.5 px-3 text-right">775</td><td class="py-2.5 px-3 text-right">₹5,99,468</td><td class="py-2.5 px-3 text-right font-bold text-slate-800">₹773.51</td><td class="py-2.5 px-3 text-right">24.46%</td></tr>
+                <tr class="bg-slate-50 text-slate-500"><td class="py-2.5 px-3 italic">Guest / Unassigned</td><td class="py-2.5 px-3 text-right">0</td><td class="py-2.5 px-3 text-right">₹16,175</td><td class="py-2.5 px-3 text-right">-</td><td class="py-2.5 px-3 text-right">0.66%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critical Business Insight Callout -->
+      <div class="bg-amber-50 rounded-xl p-5 border border-amber-200">
+        <div class="flex items-start space-x-3">
+          <i class="fas fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
+          <div>
+            <h4 class="text-sm font-bold text-amber-900">Critical Finding: Lack of Loyalty Tier Differentiation</h4>
+            <p class="text-xs text-amber-800 mt-1 leading-relaxed">
+              In this dataset, Platinum members generate ₹773.51 in ARPU, which is actually slightly <em>lower</em> than Non-Members (₹779.06) and virtually identical to Silver members (₹771.17). This indicates that the current loyalty program offers <strong>zero tier-gated spending incentives or gamified rewards</strong>. DMart has an urgent strategic opportunity to revamp the loyalty tier structure by introducing minimum spend thresholds to qualify for Platinum, tier-exclusive discounts on fresh produce, and milestone vouchers.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 5: DATA QUALITY & FUNNEL AUDIT -->
+    <div id="content-audit" class="hidden space-y-8">
+      
+      <!-- Quality Issues Quantified Summary -->
+      <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+        <h3 class="text-base font-bold text-slate-800 mb-1">Data Quality & Integrity Audit Matrix</h3>
+        <p class="text-xs text-slate-500 mb-4">Complete audit of deliberately injected defects, impact quantification, and remediation logic</p>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-xs text-left">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">Dataset</th>
+                <th class="py-2.5 px-3">Quality Issue Identified</th>
+                <th class="py-2.5 px-3 text-right">Rows Affected</th>
+                <th class="py-2.5 px-3">Business / Financial Impact</th>
+                <th class="py-2.5 px-3">Methodological Resolution</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Transactions</td>
+                <td class="py-2.5 px-3">Duplicate Transactions (10 Exact IDs + 25 TXDUP synthetic clones)</td>
+                <td class="py-2.5 px-3 text-right font-bold text-rose-600">35 rows</td>
+                <td class="py-2.5 px-3">Overstated sales by ₹6,110 and inflated transaction count</td>
+                <td class="py-2.5 px-3 text-slate-600">Deduplicated exact rows and stripped TXDUP clones to recover true 15,000 base</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Transactions</td>
+                <td class="py-2.5 px-3">Negative Unit Price (-210, -180, -349, etc.)</td>
+                <td class="py-2.5 px-3 text-right font-bold text-rose-600">12 rows</td>
+                <td class="py-2.5 px-3">Negative revenue calculation on completed sales orders</td>
+                <td class="py-2.5 px-3 text-slate-600">Rectified via Product Lookup catalog join (<code class="bg-slate-100 px-1 py-0.5 rounded">List_Price_INR</code>)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Transactions</td>
+                <td class="py-2.5 px-3">Excessive Discount Rate (1.20 = 120% discount)</td>
+                <td class="py-2.5 px-3 text-right font-bold text-rose-600">10 rows</td>
+                <td class="py-2.5 px-3">Created negative net sales (-20% price) where store pays customer</td>
+                <td class="py-2.5 px-3 text-slate-600">Corrected decimal position entry typo from 1.2 to standard 0.12 (12%)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Transactions</td>
+                <td class="py-2.5 px-3">Negative Quantities (-1) on Completed Status</td>
+                <td class="py-2.5 px-3 text-right font-bold text-rose-600">13 rows</td>
+                <td class="py-2.5 px-3">Distorts basket unit count and order totals</td>
+                <td class="py-2.5 px-3 text-slate-600">Flagged as cashier scan sign error; normalized to abs(Quantity)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Transactions</td>
+                <td class="py-2.5 px-3">Status Inconsistencies (COMPLETE, completed, cancelled, RETURN)</td>
+                <td class="py-2.5 px-3 text-right font-bold text-amber-600">45 rows</td>
+                <td class="py-2.5 px-3">Fragmentation in SQL GROUP BY and pipeline funnel loss</td>
+                <td class="py-2.5 px-3 text-slate-600">Standardized into 4 canonical states: Completed, Cancelled, Returned, Pending</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Transactions</td>
+                <td class="py-2.5 px-3">Date Parsing Issues (32-01-2026, 2026-14-08, 2025/15/03, NaNs)</td>
+                <td class="py-2.5 px-3 text-right font-bold text-amber-600">36 rows</td>
+                <td class="py-2.5 px-3">Failed date sorting and broken monthly cohort aggregations</td>
+                <td class="py-2.5 px-3 text-slate-600">Rescued 11 rows via YYYY-DD-MM parser; documented 12 NaNs & 13 impossible days</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Customer Master</td>
+                <td class="py-2.5 px-3">Duplicate Customer Records (Casing/Whitespace variations)</td>
+                <td class="py-2.5 px-3 text-right font-bold text-rose-600">26 rows</td>
+                <td class="py-2.5 px-3">Overstated total customer base (3,226 vs 3,200 true)</td>
+                <td class="py-2.5 px-3 text-slate-600">Deduplicated on Customer_ID; verified no conflicting master data</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold text-slate-800">Customer Master</td>
+                <td class="py-2.5 px-3">Biologically Impossible Ages (-3, 5, 121, 250) & Missing Ages</td>
+                <td class="py-2.5 px-3 text-right font-bold text-amber-600">74 rows</td>
+                <td class="py-2.5 px-3">Skewed demographic analysis and mean age calculation</td>
+                <td class="py-2.5 px-3 text-slate-600">Filtered out ages &lt; 15 and &gt; 100; flagged missing ages for imputation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 6: ACTIONABLE RECOMMENDATIONS -->
+    <div id="content-recommendations" class="hidden space-y-8">
+      
+      <!-- Strategic Recommendations Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Rec 1: Margin Expansion -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow flex flex-col justify-between">
+          <div>
+            <div class="flex items-center space-x-2 text-sky-600 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="p-1.5 bg-sky-50 rounded"><i class="fas fa-layer-group"></i></span>
+              <span>Merchandising & Basket Value</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Cross-Category Bundle Merchandising</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Staples account for 30.9% of sales at 19.2% margin. Customers are purchasing staple items in isolation (1.51 UPT). DMart should implement physical and digital cross-merchandising bundles (e.g. <em>"Buy 5kg Rice, get 20% off Biscuits/Chocolates"</em> or <em>"Breakfast Combo: Bread + Tea + Sugar"</em>).
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-slate-500">Expected Business Impact:</span>
+            <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">+12% ABV &amp; +180 bps Margin</span>
+          </div>
+        </div>
+
+        <!-- Rec 2: Loyalty Revamp -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow flex flex-col justify-between">
+          <div>
+            <div class="flex items-center space-x-2 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="p-1.5 bg-indigo-50 rounded"><i class="fas fa-crown"></i></span>
+              <span>Customer Retention & LTV</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Tier-Gated Loyalty Program Overhaul</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Currently, Platinum members generate ₹773.51 in ARPU vs ₹779.06 for Non-Members. Re-architect the loyalty scheme with strict annual spending thresholds (e.g., ₹5,000 to reach Gold, ₹12,000 to reach Platinum), offering exclusive weekend grocery pricing, express checkout, and free home delivery.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-slate-500">Expected Business Impact:</span>
+            <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">+25% Platinum ARPU</span>
+          </div>
+        </div>
+
+        <!-- Rec 3: Channel Friction Reduction -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow flex flex-col justify-between">
+          <div>
+            <div class="flex items-center space-x-2 text-amber-600 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="p-1.5 bg-amber-50 rounded"><i class="fas fa-rotate-left"></i></span>
+              <span>Operational Efficiency</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Online Return Rate & Cancellation Mitigation</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Online returns (3.51%) and cancellations (4.10%) are the highest among channels, causing ₹1.14L in lost revenue and ₹82.3k in returns. Prioritize Mobile App promotion (which has the lowest 2.97% return rate) via first-order app discounts, and implement pre-dispatch address verification and inventory sync.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-slate-500">Expected Business Impact:</span>
+            <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Save ₹50,000+ in annual waste</span>
+          </div>
+        </div>
+
+        <!-- Rec 4: POS Data Governance -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow flex flex-col justify-between">
+          <div>
+            <div class="flex items-center space-x-2 text-rose-600 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="p-1.5 bg-rose-50 rounded"><i class="fas fa-shield-halved"></i></span>
+              <span>Data Governance & Engineering</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Automated POS Validation Constraints</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Enforce schema validation at POS ingestion: block discount inputs > 20% without store manager authorization override, enforce catalog price lookup rather than manual cashier price entry (preventing negative prices), and mandate standardized ISO-8601 date timestamps.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-slate-500">Expected Business Impact:</span>
+            <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Eliminates 100% data entry glitches</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Management Monitoring Framework (Weekly vs Monthly) -->
+      <div class="bg-white rounded-xl p-6 border border-slate-200 card-shadow">
+        <h3 class="text-base font-bold text-slate-800 mb-3">Management KPI Monitoring Cadence</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+          <div class="p-4 bg-sky-50 rounded-lg border border-sky-100">
+            <h4 class="font-bold text-sky-900 text-sm mb-2 flex items-center"><i class="fas fa-calendar-week mr-2 text-sky-600"></i> Weekly Operational Review Cadence</h4>
+            <ul class="space-y-1.5 text-slate-700 list-disc list-inside">
+              <li><strong>Cancellation Rate by Channel & Store</strong> (Threshold: &lt; 3.0%)</li>
+              <li><strong>Return Rate & Reverse Logistics Value</strong> (Threshold: &lt; 2.5%)</li>
+              <li><strong>Weekly Gross Revenue & Target Run-rate vs Forecast</strong></li>
+              <li><strong>Stockout & Pending Order Aging</strong> (Flag orders pending &gt; 24h)</li>
+              <li><strong>Payment Gateway Drop-offs</strong> (Failure rate by method)</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+            <h4 class="font-bold text-indigo-900 text-sm mb-2 flex items-center"><i class="fas fa-calendar-days mr-2 text-indigo-600"></i> Monthly Strategic Review Cadence</h4>
+            <ul class="space-y-1.5 text-slate-700 list-disc list-inside">
+              <li><strong>Category Gross Margin % and P&L Variance</strong></li>
+              <li><strong>Average Basket Value (ABV) & Units Per Transaction (UPT)</strong></li>
+              <li><strong>Active Customer Churn & Penetration Rate</strong> (Target: &gt; 95%)</li>
+              <li><strong>Store Productivity & Sales Per Square Foot Variance</strong></li>
+              <li><strong>Customer Segment Migration & Loyalty ARPU Expansion</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-medium text-slate-700">DMart Retail Analytics Assignment Submission — Prepared for Corporate Chanakya Services Pvt Ltd</p>
+      <p class="mt-1">Analytical Models, Data Cleaning Scripts, and Visual Reports Generated with Python, Pandas, Matplotlib, and Chart.js</p>
+    </div>
+  </footer>
+
+  <!-- Chart Scripts & Tab Switching Logic -->
+  <script>
+    function switchTab(tabId) {
+      const tabs = ['overview', 'categories', 'channels', 'customers', 'audit', 'recommendations'];
+      tabs.forEach(t => {
+        document.getElementById(`content-${t}`).classList.add('hidden');
+        document.getElementById(`tab-${t}`).classList.remove('active-tab');
+        document.getElementById(`tab-${t}`).classList.add('text-slate-500');
+      });
+      document.getElementById(`content-${tabId}`).classList.remove('hidden');
+      document.getElementById(`tab-${tabId}`).classList.add('active-tab');
+      document.getElementById(`tab-${tabId}`).classList.remove('text-slate-500');
+    }
+
+    // Chart 1: Monthly Trend
+    const ctxMonthly = document.getElementById('monthlyTrendChart').getContext('2d');
+    const months = ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'];
+    const netSales = [115.8, 103.5, 114.7, 114.3, 119.8, 107.8, 118.9, 114.2, 112.5, 110.1, 117.2, 113.6, 108.9, 107.5, 112.8, 113.4, 111.2, 115.6, 109.1, 118.4, 107.9]; // in ₹ Thousands
+    const grossProfit = [29.1, 26.0, 28.8, 28.7, 30.1, 27.1, 29.9, 28.7, 28.3, 27.7, 29.5, 28.6, 27.4, 27.0, 28.4, 28.5, 27.9, 29.1, 27.4, 29.8, 27.1];
+
+    new Chart(ctxMonthly, {
+      type: 'line',
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: 'Net Sales (₹ k)',
+            data: netSales,
+            borderColor: '#0284c7',
+            backgroundColor: 'rgba(2, 132, 199, 0.1)',
+            fill: true,
+            tension: 0.3,
+            borderWidth: 2.5
+          },
+          {
+            label: 'Gross Profit (₹ k)',
+            data: grossProfit,
+            borderColor: '#059669',
+            backgroundColor: 'transparent',
+            borderDash: [5, 5],
+            tension: 0.3,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          y: { beginAtZero: false, grid: { color: '#f1f5f9' } },
+          x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 45 } }
+        }
+      }
+    });
+
+    // Chart 2: Channel Donut
+    const ctxChannel = document.getElementById('channelDonutChart').getContext('2d');
+    new Chart(ctxChannel, {
+      type: 'doughnut',
+      data: {
+        labels: ['Mobile App', 'Online Web', 'In-Store'],
+        datasets: [{
+          data: [837084, 808837, 804706],
+          backgroundColor: ['#0284c7', '#6366f1', '#10b981'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } },
+        cutout: '65%'
+      }
+    });
+
+    // Chart 3: Category Margin
+    const ctxCatMargin = document.getElementById('categoryMarginChart').getContext('2d');
+    new Chart(ctxCatMargin, {
+      type: 'bar',
+      data: {
+        labels: ['Stationery', 'Packaged Food', 'Bakery', 'Home & Util', 'Fresh Produce', 'Personal Care', 'Beverages', 'Home Care', 'Dairy', 'Staples'],
+        datasets: [{
+          label: 'Gross Margin %',
+          data: [40.35, 38.02, 36.94, 32.95, 31.99, 29.91, 25.28, 24.00, 20.09, 19.23],
+          backgroundColor: function(context) {
+            const val = context.raw;
+            return val > 25.14 ? '#059669' : '#f59e0b';
+          },
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              afterLabel: function(context) {
+                return context.raw > 25.14 ? 'Above Corporate Avg (25.14%)' : 'Below Corporate Avg (25.14%)';
+              }
+            }
+          }
+        },
+        scales: {
+          x: { min: 15, max: 45, grid: { color: '#f1f5f9' } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

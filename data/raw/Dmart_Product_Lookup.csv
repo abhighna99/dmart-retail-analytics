@@ -1,0 +1,21 @@
+Product_ID,Product_Name,Category,List_Price_INR,Unit_Cost_INR
+PR001,Rice 5kg,Staples,349,275
+PR002,Wheat Flour 5kg,Staples,245,180
+PR003,Sunflower Oil 1L,Staples,145,112
+PR004,Sugar 1kg,Staples,48,36
+PR005,Milk 1L,Dairy,64,52
+PR006,Curd 500g,Dairy,38,27
+PR007,Bread,Bakery,42,25
+PR008,Eggs 12-pack,Dairy,92,68
+PR009,Apples 1kg,Fresh Produce,180,120
+PR010,Bananas 1kg,Fresh Produce,60,35
+PR011,Dishwash Liquid,Home Care,115,78
+PR012,Laundry Detergent,Home Care,299,220
+PR013,Shampoo,Personal Care,189,130
+PR014,Toothpaste,Personal Care,99,61
+PR015,Biscuits Pack,Packaged Food,30,18
+PR016,Tea 250g,Beverages,155,108
+PR017,Coffee 100g,Beverages,210,150
+PR018,Chocolate,Packaged Food,50,29
+PR019,Notebook,Stationery,55,31
+PR020,LED Bulb,Home & Utility,85,54
